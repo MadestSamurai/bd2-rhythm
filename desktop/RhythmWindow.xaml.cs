@@ -14,7 +14,7 @@ public partial class RhythmWindow:Window {
  readonly DispatcherTimer timer=new(){Interval=TimeSpan.FromMilliseconds(250)};
  bool connecting,initialized;
  public RhythmWindow(string? dataRoot=null){
-  InitializeComponent();root=dataRoot??RhythmIdentity.DataRoot;link=new(root);language=new(LanguagePreference.Read(root));
+  InitializeComponent();BD2.Distribution.DistributionNotice.Attach(this,LanguageBox);root=dataRoot??RhythmIdentity.DataRoot;link=new(root);language=new(LanguagePreference.Read(root));
   var s=RhythmJson.Read<RhythmSettings>(Path.Combine(root,"settings.json"))??new();
   if(!RhythmControl.ValidSettings(s.JitterMs,s.OffsetMs))s=new();
   JitterBox.Text=s.JitterMs.ToString();OffsetBox.Text=s.OffsetMs.ToString();

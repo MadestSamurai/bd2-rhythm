@@ -1,6 +1,8 @@
-﻿# BD2 Rhythm
+# BD2 Rhythm
 
-> **Disclaimer:** Using this helper carries risks, including account penalties, bans, game instability or data loss. This project is not affiliated with the game publisher and does not guarantee safe use. Evaluate the risks and comply with the game's rules; you assume responsibility for any risks and consequences arising from use.
+> **Free & open source:** Official releases are provided free by GitHub **MadestSamurai** · Bilibili **MadSamurai**. [Official downloads](https://github.com/MadestSamurai/bd2-rhythm/releases) · [Source and risk notice](DISTRIBUTION.md#english). Third-party fees do not imply the author’s involvement, endorsement or support.
+>
+> **Risk notice:** This is an unofficial community tool. Use may result in account penalties, bans, game errors or data loss. Follow the game rules and accept responsibility for the risks of use. The MIT license remains unchanged.
 
 English · [简体中文](README.md)
 
@@ -10,7 +12,7 @@ A standalone rhythm-game assistant for BrownDust II on Windows. It reads the cur
 
 ## Download
 
-Current version: **0.2.0**. Both Simplified Chinese and English are built into the same app; switch in the upper-right corner.
+Current version: **0.2.1**. Both Simplified Chinese and English are built into the same app; switch in the upper-right corner.
 
 | Edition | Runtime requirement | Recommended for |
 | --- | --- | --- |
@@ -70,7 +72,7 @@ Requires Windows, PowerShell and the .NET 8 SDK. From the repository root:
 .\package.ps1 -Locked
 ```
 
-Building and running synthetic-chart tests do not require a game installation, game account or private repository data. Release assets appear in `dist/v0.2.0/`. Optional local-client checks are described in [Development](docs/DEVELOPMENT.md).
+Building and running synthetic-chart tests do not require a game installation, game account or private repository data. Release assets appear in `dist/v0.2.1/`. Optional local-client checks are described in [Development](docs/DEVELOPMENT.md).
 
 [Localization](docs/LOCALIZATION.md) · [Publication style](docs/PUBLICATION_STYLE.md) · [Release notes](docs/RELEASE_NOTES.md)
 
