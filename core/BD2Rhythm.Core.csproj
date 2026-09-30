@@ -7,4 +7,4 @@
     <Compile Include="../localization/*.cs" Link="Localization/%(Filename)%(Extension)" />
     <EmbeddedResource Include="../localization/*.json" LogicalName="Locale.%(Filename)%(Extension)" />
   </ItemGroup>
-</Project>
+<ItemGroup><Compile Include="../ipc/common/*.cs"/><Compile Include="../ipc/desktop/*.cs"/></ItemGroup></Project>

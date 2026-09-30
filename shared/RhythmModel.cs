@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 namespace BD2Rhythm {
  public static class RhythmIdentity {
+  public const string LiveEntries="runtime.json|control.json|latest.json";
   public const string RuntimeName="BD2Rhythm.Runtime3";
   public static string DataRoot=>System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"BD2Rhythm");
   public static bool IsGameProcessName(string name)=>string.Equals(name,"BrownDust II",StringComparison.OrdinalIgnoreCase)||string.Equals(name,"BrownDust II.exe",StringComparison.OrdinalIgnoreCase);

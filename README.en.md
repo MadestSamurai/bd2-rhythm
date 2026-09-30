@@ -12,7 +12,7 @@ A standalone rhythm-game assistant for BrownDust II on Windows. It reads the cur
 
 ## Download
 
-Current version: **0.2.1**. Both Simplified Chinese and English are built into the same app; switch in the upper-right corner.
+Source version: **0.2.2**. Both Simplified Chinese and English are built into the same app; switch in the upper-right corner.
 
 | Edition | Runtime requirement | Recommended for |
 | --- | --- | --- |
@@ -23,7 +23,7 @@ Windows x64 only. Both editions have the same features. The EXE works on its own
 
 ## Quick start
 
-1. For first use, launch the app. When upgrading, stop and close the old app, then restart the game normally.
+1. Launch the app. For upgrades, stop and close the old app and follow the connection and tool switching section.
 2. Start the Windows version of BrownDust II. Keep one game instance open and run the app with the same privileges as the game.
 3. Click **Connect**, wait for confirmation, then click **Enable auto-play**.
 4. Select a song and difficulty in the game and start it. The app displays the song, progress, played inputs and skipped notes.
@@ -61,7 +61,7 @@ Click **Diagnostics**, or open `%LOCALAPPDATA%\BD2Rhythm`. Settings, connection 
 
 Include the app version, Windows version, game version, error text and reproduction steps in an issue. Share only relevant logs when needed, without game resources, credentials or private data.
 
-If a different component is already loaded, stop the old app and restart the game normally. Connection failures preserve the original error; avoid repeated attempts that obscure the cause.
+If another tool holds control, stop it and reconnect. Legacy components may require one restart as described below. Preserve the original connection error for diagnostics.
 
 ## Development and contributions
 
@@ -72,10 +72,14 @@ Requires Windows, PowerShell and the .NET 8 SDK. From the repository root:
 .\package.ps1 -Locked
 ```
 
-Building and running synthetic-chart tests do not require a game installation, game account or private repository data. Release assets appear in `dist/v0.2.1/`. Optional local-client checks are described in [Development](docs/DEVELOPMENT.md).
+Building and running synthetic-chart tests do not require a game installation, game account or private repository data. Release assets appear in `dist/v0.2.2/`. Optional local-client checks are described in [Development](docs/DEVELOPMENT.md).
 
 [Localization](docs/LOCALIZATION.md) · [Publication style](docs/PUBLICATION_STYLE.md) · [Release notes](docs/RELEASE_NOTES.md)
 
 ## License
 
 Project code is licensed under the [MIT License](LICENSE). See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and `licenses/` for dependencies. The game and its content belong to their respective owners.
+
+## Connection and tool switching
+
+When upgrading from an older release for the first time, close the old tools and restart the game once. These updated tools can then update and switch within the same game process: pending game operations finish before control changes. Settings and records are retained. Live communication uses local named pipes. Modules used by the daily workflow are coordinated separately by its scheduler.

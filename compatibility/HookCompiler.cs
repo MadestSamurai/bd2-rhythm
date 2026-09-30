@@ -32,9 +32,10 @@ public static class HookCompiler {
   var chart=m.GetType("Rhythm.RhythmLevelDataScriptable");foreach(var name in new[]{"noteDataList","bpm","difficulty"})if(!chart.Fields.Any(f=>f.Name==name))throw new InvalidOperationException("谱面字段变化："+name);
   var maps="namespace BD2Rhythm.Runtime { internal static class ClientMap { internal const string Mvid="+JsonSerializer.Serialize(report.ClientMvid)+"; "+string.Join(" ",report.Members.Select(k=>"internal const int "+k.Key+"="+k.Value+";"))+" } }";
   var assembly=typeof(HookCompiler).Assembly;var sources=assembly.GetManifestResourceNames().Where(n=>n.StartsWith("Hook.")).OrderBy(n=>n).Select(n=>CSharpSyntaxTree.ParseText(Encoding.UTF8.GetString(Resource(n)),path:n)).ToList();sources.Add(CSharpSyntaxTree.ParseText(maps));
+  sources.Add(CSharpSyntaxTree.ParseText("namespace BD2.LocalIpc { public static class Build { public const string Fingerprint = " + JsonSerializer.Serialize(ToolFingerprint) + "; } }"));
   var refs=new List<MetadataReference>();foreach(var file in Directory.EnumerateFiles(managed,"*.dll")){try{refs.Add(MetadataReference.CreateFromFile(file));}catch(BadImageFormatException){}}
   refs.Add(MetadataReference.CreateFromImage(Resource("BD2Rhythm.Harmony.dll")));
-  var compilation=CSharpCompilation.Create("BD2Rhythm.Runtime3",sources,refs,new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,optimizationLevel:OptimizationLevel.Release,platform:Platform.X64,deterministic:true));using var output=new MemoryStream();
+  var compilation=CSharpCompilation.Create("BD2Rhythm.Runtime3.Hot."+ToolFingerprint.Substring(0,12),sources,refs,new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,optimizationLevel:OptimizationLevel.Release,platform:Platform.X64,deterministic:true));using var output=new MemoryStream();
   var emitted=compilation.Emit(output,manifestResources:new[]{"BD2Rhythm.Harmony.dll"}.Select(n=>new ResourceDescription(n,()=>new MemoryStream(Resource(n)),true)));
   if(!emitted.Success)throw new InvalidOperationException("音游组件未能适配，尚未连接。\n"+string.Join("\n",emitted.Diagnostics.Where(d=>d.Severity==DiagnosticSeverity.Error).Take(20)));
   return new(output.ToArray(),report);

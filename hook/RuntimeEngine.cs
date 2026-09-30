@@ -24,14 +24,16 @@ namespace BD2Rhythm.Runtime {
    harmony.Patch(module.ResolveMethod(ClientMap.Pump),postfix:new HarmonyMethod(typeof(RuntimeEngine).GetMethod("Pump",BindingFlags.Static|BindingFlags.NonPublic)));
    mainTicks=DateTime.UtcNow.Ticks;timer=new Timer(Background,null,0,100);Loader.Status("active","");LocalStorage.Log("runtime_start live_chart=true");
   }
-  internal void Stop(){if(timer!=null){timer.Dispose();timer=null;}if(harmony!=null)harmony.UnpatchAll(Patch);if(current==this)current=null;}
+  internal void PrepareHandoff(){control=new RhythmControl();Clear(null);}
+  internal string HandoffBusy()=>timerBusy!=0?"snapshot writer":"";
+  internal void Stop(){Clear(null);if(timer!=null){timer.Dispose();timer=null;}if(harmony!=null)harmony.UnpatchAll(Patch);if(current==this)current=null;}
   static void Pump(){if(current!=null)Interlocked.Exchange(ref current.mainTicks,DateTime.UtcNow.Ticks);}
   static void Reset(RhythmHUD __instance){if(current==null)return;current.Clear(__instance);LocalStorage.Log("song_reset");}
   static void Disable(RhythmHUD __instance){if(current!=null&&current.active==__instance)current.Clear(null);}
   void Clear(RhythmHUD hud){if(plan!=null&&input!=null)try{plan.Release(Send);}catch{}active=hud;activeChart=null;plan=null;failed="";currentSong="";lastClock=int.MinValue;counted=false;lastFever=false;}
   static void HudTick(RhythmHUD __instance){if(current==null)return;try{current.Tick(__instance);}catch(Exception e){current.failed=e.GetBaseException().Message;LocalStorage.Log("error "+current.failed);current.Publish("error",current.failed,0);}}
   void Background(object unused){if(Interlocked.Exchange(ref timerBusy,1)!=0)return;try{
-   var path=Path.Combine(LocalStorage.DataRoot,"control.json");try{using(var f=new FileStream(path,FileMode.Open,FileAccess.Read,FileShare.ReadWrite|FileShare.Delete))control=(RhythmControl)new DataContractJsonSerializer(typeof(RhythmControl)).ReadObject(f);}catch{} // Retain the previous command until its existing lease expires.
+   var path=Path.Combine(LocalStorage.DataRoot,"control.json");try{using(var f=new MemoryStream(BD2.LocalIpc.RuntimeFiles.Read(path)??new byte[0]))control=(RhythmControl)new DataContractJsonSerializer(typeof(RhythmControl)).ReadObject(f);}catch{} // Retain the previous command until its existing lease expires.
    var now=DateTime.UtcNow;var s=snapshot;
    if(now.Ticks-Interlocked.Read(ref hudTicks)>TimeSpan.FromSeconds(1).Ticks){s=new RhythmSnapshot{ProcessId=pid,CapturedUtcTicks=Interlocked.Read(ref mainTicks),State="waiting",Reason="等待曲目开始",Armed=control.Valid(now.Ticks,pid),OwnerId=control.OwnerId,CompletedSongs=complete,JitterMs=control.JitterMs,OffsetMs=control.OffsetMs};}
    LocalStorage.WriteJsonAtomically(Path.Combine(LocalStorage.DataRoot,"latest.json"),s);
