@@ -8,6 +8,8 @@ using System.Windows.Threading;
 using BD2Rhythm.Localization;
 namespace BD2Rhythm.Desktop;
 public partial class RhythmWindow:Window {
+ public bool HostedAutomationEnabled => link.Enabled || connecting;
+
  readonly string root;
  readonly RhythmControlLink link;
  readonly LanguageCatalog language;

@@ -81,5 +81,7 @@
   " · 本机管道": " · Local connection",
   "组件交接尚未完成，请等待游戏界面恢复或当前操作结算后重新连接；游戏可以保持运行。": "Component handoff is still pending. Wait for the game UI or pending action to finish, then reconnect. You can keep the game running.",
   "此游戏进程尚未返回组件状态，请等待加载完成后重新连接。": "The component has not reported its state yet. Reconnect after the game finishes loading.",
-  " 请重新连接以重新检查组件。": " Reconnect to check the component again."
+  " 请重新连接以重新检查组件。": " Reconnect to check the component again.",
+  "GitHub: MadestSamurai · B站: MadSamurai": "GitHub: MadestSamurai · Bilibili: MadSamurai"
 }
+
